@@ -1,0 +1,159 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 100px;
+}
+
+/* Header */
+
+.header {
+    text-align: center;
+    margin: 50px;
+}
+
+.header h1 {
+    font-size: 70px;
+}
+
+/* Main */
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.container {
+    height: 600px;
+    width: 400px;
+    background-color: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.6fr 0.25fr 1.25fr;
+    outline-style: solid;
+    outline-width: 4px;
+    padding: 0px;
+    outline-color: #dee2e6;
+    box-shadow: rgba(0,0,0,0.24) 0px 3px 8px;
+}
+
+#screen {
+    outline-style: solid;
+    outline-width: 3px;
+    margin: 20px;
+    outline-color: #dee2e6;
+    box-shadow: rgba(0,0,0,0.10) 0px 3px 8px;
+    text-align: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+#memory {
+    padding-right: 20px;  
+    font-size: 20px; 
+}
+
+#input {
+    padding-right: 20px;
+    font-size: 50px;
+}
+
+#bigBtn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 10px;
+    padding: 0px 17px 0px 17px;
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(4,1fr);
+    gap: 10px;
+    padding: 17px;
+}
+
+button {
+    font-size: 20px;
+    background-color: rgba(0,0,0,0);
+    border-style: solid;
+    border-radius: 10px;
+    transition: 0.15s;
+}
+
+button:hover {
+    background-color: #dee2e6;
+}
+
+button:active {
+    color: rgba(0,0,0,0.4);
+    scale: 0.9;
+}
+
+
+
+.active {
+    background-color:#dee2e6;
+}
+
+/* Footer */
+
+.footer {
+    color: black;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.footer i {
+    color: #3b3b3b;
+    font-size: 30px;
+}
+
+/* MEDIA QUERIES */
+
+@media(max-width: 1200px) {
+    .main {
+        justify-content: center;
+    }
+}
+
+@media(max-width: 850px) {
+    .main {
+        gap: 50px;
+    }
+
+    /* .container { 
+        width: 400px;
+        height: 400px;
+    }*/
+}
+
+@media(max-width: 650px) {
+    .header h1 {
+        font-size: 50px;
+    }
+
+    /* .container {
+        width: 300px;
+        height: 300px;
+    }*/
+}
