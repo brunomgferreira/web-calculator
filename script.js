@@ -7,8 +7,33 @@ const input = document.getElementById('input');
 const buttons = document.querySelectorAll('button');
 buttons.forEach((button) => {button.addEventListener('click', readInput);});
 
+document.addEventListener('keydown', handleKeyPress);
+
+function handleKeyPress(e){
+    const keys = ['0','1','2','3','4','5','6','7','8','9','/','*','+','-','=','.'];
+    var value = "";
+    if(e.key === '0') value = '0';
+    else if(e.key === '1') digits('1');
+    else if(e.key === '2') digits('2');
+    else if(e.key === '3') digits('3');
+    else if(e.key === '4') digits('4');
+    else if(e.key === '5') digits('5');
+    else if(e.key === '6') digits('6');
+    else if(e.key === '7') digits('7');
+    else if(e.key === '8') digits('8');
+    else if(e.key === '9') digits('9');
+    else if(e.key === '/') equation('÷');
+    else if(e.key === '*') equation('x');
+    else if(e.key === '+') equation('+');
+    else if(e.key === '-') equation('-');
+    else if(e.key === '=' || e.key === 'Enter') equal();
+    else if(e.key === '.') dot();
+    else if(e.key === 'Backspace') dlt();
+}
+
 function clearInput(){
     inputValue  = "0";
+    updateScreen();
 }
 
 function clearMem(op){
@@ -17,6 +42,7 @@ function clearMem(op){
     else if (memValue[memValue.length-1] == '=') {
         memValue = "";
     }
+    updateScreen();
 }
 
 function clear(){
@@ -29,6 +55,7 @@ function dlt() {
     // deletes the last input value
     if (!lastInputIsOperator) inputValue = inputValue.substring(0, inputValue.length-1);
     if (inputValue.length == 0);
+    updateScreen();
 }
 
 function updateScreen() {
@@ -66,12 +93,8 @@ function readInput(e) {
         clear();
     }
     else {
-        if (inputValue == "0" && value == "0") clearInput();
-        else if (inputValue == "0" || lastInputIsOperator) inputValue = value;
-        else inputValue += value;
-        lastInputIsOperator = false;
+        digits(value);
     }
-    updateScreen();
 }
 
 function equation(operator){
@@ -83,6 +106,7 @@ function equation(operator){
         clearMem(false);
     }
     lastInputIsOperator = true;
+    updateScreen();
 }
 
 function equal(){
@@ -95,11 +119,13 @@ function equal(){
         lastInputIsOperator = true;
         calc();
     }
+    updateScreen();
 }
 
 function dot(){
     if (!inputValue.includes('.')) inputValue += '.';
     lastInputIsOperator = false;
+    updateScreen();
 }
 
 function calc(){
@@ -107,6 +133,15 @@ function calc(){
     expression = expression.replace(/x/g,'*');
     expression = expression.replace(/÷/g,'/');
     inputValue = eval(expression);
+    updateScreen();
+}
+
+function digits(value){
+    if (inputValue == "0" && value == "0") clearInput();
+    else if (inputValue == "0" || lastInputIsOperator) inputValue = value;
+    else inputValue += value;
+    lastInputIsOperator = false;
+    updateScreen();
 }
 
 window.onload = () => {
