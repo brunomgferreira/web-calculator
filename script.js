@@ -36,41 +36,92 @@ buttons.forEach((button) => {
     button.addEventListener('click', readInput);
 });
 
-let op = false;
-function readInput(e) {
-    let value = e.target.id;
 
-    if (value == "divide") {
+function divide(){
+    if (memValue[memValue.length-1] == '='){
+        memValue = inputValue + " ÷ ";
+    }
+    else {
         memValue += inputValue;
         memValue += " ÷ "
         op = true;
         clearMem(false);
     }
-    else if (value == "multiply") {
+}
+
+function multiply(){
+    if (memValue[memValue.length-1] == '='){
+        memValue = inputValue + " x ";
+    }
+    else {
         memValue += inputValue;
         memValue += " x "
         op = true;
         clearMem(false);
     }
-    else if (value == "subtract") {
+}
+
+function subtract(){
+    if (memValue[memValue.length-1] == '='){
+        memValue = inputValue + " - ";
+    }
+    else {
         memValue += inputValue;
         memValue += " - "
         op = true;
         clearMem(false);
     }
-    else if (value == "add") {
+}
+
+function add(){
+    if (memValue[memValue.length-1] == '='){
+        memValue = inputValue + " + ";
+    }
+    else {
         memValue += inputValue;
         memValue += " + "
         op = true;
         clearMem(false);
     }
-    else if (value == "equal") {
+}
+
+function equal(){
+    if (memValue[memValue.length-1] == '='){
+        return;
+    }
+    else {
         memValue += inputValue;
-        memValue += " = "
+        memValue += " ="
         op = false;
     }
+}
+
+function dot(){
+    if (!inputValue.includes('.')) inputValue += '.';
+    op = false;
+}
+
+let op = false;
+function readInput(e) {
+    let value = e.target.id;
+
+    if (value == "divide") {
+        divide();
+    }
+    else if (value == "multiply") {
+        multiply();
+    }
+    else if (value == "subtract") {
+        subtract();
+    }
+    else if (value == "add") {
+        add();
+    }
+    else if (value == "equal") {
+        equal();
+    }
     else if (value == "dot") {
-        inputValue  += '.';
+        dot();
     }
     else if (value == "delete") {
         deleteAll();
