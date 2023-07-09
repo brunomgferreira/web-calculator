@@ -4,24 +4,30 @@ let inputValue = "0";
 const memory = document.getElementById('memory');
 const input = document.getElementById('input');
 
+const buttons = document.querySelectorAll('button');
+buttons.forEach((button) => {button.addEventListener('click', readInput);});
+
 function clearInput(){
     inputValue  = "0";
 }
 
 function clearMem(op){
-    if (op) memValue = "";
+    // lastInputIsOperator used to force clear the memory
+    if (op) memValue = ""; 
     else if (memValue[memValue.length-1] == '=') {
         memValue = "";
     }
 }
 
 function clear(){
+    // clear screen 
     clearInput();
     clearMem(true);
 }
 
-function deleteAll() {
-    inputValue  = inputValue.slice(0, inputValue.length-1);
+function dlt() {
+    // deletes the last input value
+    if (!lastInputIsOperator) inputValue = inputValue.substring(0, inputValue.length-1);
     if (inputValue.length == 0);
 }
 
@@ -30,92 +36,22 @@ function updateScreen() {
     input.textContent = inputValue;
 }
 
-const buttons = document.querySelectorAll('button');
+let lastInputIsOperator = false;
 
-buttons.forEach((button) => {
-    button.addEventListener('click', readInput);
-});
-
-
-function divide(){
-    if (memValue[memValue.length-1] == '='){
-        memValue = inputValue + " ÷ ";
-    }
-    else {
-        memValue += inputValue;
-        memValue += " ÷ "
-        op = true;
-        clearMem(false);
-    }
-}
-
-function multiply(){
-    if (memValue[memValue.length-1] == '='){
-        memValue = inputValue + " x ";
-    }
-    else {
-        memValue += inputValue;
-        memValue += " x "
-        op = true;
-        clearMem(false);
-    }
-}
-
-function subtract(){
-    if (memValue[memValue.length-1] == '='){
-        memValue = inputValue + " - ";
-    }
-    else {
-        memValue += inputValue;
-        memValue += " - "
-        op = true;
-        clearMem(false);
-    }
-}
-
-function add(){
-    if (memValue[memValue.length-1] == '='){
-        memValue = inputValue + " + ";
-    }
-    else {
-        memValue += inputValue;
-        memValue += " + "
-        op = true;
-        clearMem(false);
-    }
-}
-
-function equal(){
-    if (memValue[memValue.length-1] == '='){
-        return;
-    }
-    else {
-        memValue += inputValue;
-        memValue += " ="
-        op = false;
-    }
-}
-
-function dot(){
-    if (!inputValue.includes('.')) inputValue += '.';
-    op = false;
-}
-
-let op = false;
 function readInput(e) {
     let value = e.target.id;
 
     if (value == "divide") {
-        divide();
+        equation('÷');
     }
     else if (value == "multiply") {
-        multiply();
+        equation('x');
     }
     else if (value == "subtract") {
-        subtract();
+        equation('-');
     }
     else if (value == "add") {
-        add();
+        equation('+');
     }
     else if (value == "equal") {
         equal();
@@ -124,18 +60,53 @@ function readInput(e) {
         dot();
     }
     else if (value == "delete") {
-        deleteAll();
+        dlt();
     }
     else if (value == "clear") {
         clear();
     }
     else {
         if (inputValue == "0" && value == "0") clearInput();
-        else if (inputValue == "0" || op) inputValue = value;
+        else if (inputValue == "0" || lastInputIsOperator) inputValue = value;
         else inputValue += value;
-        op = false;
+        lastInputIsOperator = false;
     }
     updateScreen();
+}
+
+function equation(operator){
+    if (memValue[memValue.length-1] == '='){
+        memValue = inputValue + " " + operator + " ";
+    }
+    else if (inputValue) {
+        memValue = memValue + inputValue + " " + operator + " ";
+        clearMem(false);
+    }
+    lastInputIsOperator = true;
+}
+
+function equal(){
+    if (memValue[memValue.length-1] == '='){
+        return;
+    }
+    else if (inputValue) {
+        memValue += inputValue;
+        memValue += " ="
+        lastInputIsOperator = true;
+        calc();
+    }
+}
+
+function dot(){
+    if (!inputValue.includes('.')) inputValue += '.';
+    lastInputIsOperator = false;
+}
+
+function calc(){
+    var expression = memValue.slice(0, memValue.length - 1);
+    expression = expression.replace(/x/g,'*');
+    expression = expression.replace(/÷/g,'/');
+    inputValue = eval(expression);
 }
 
 window.onload = () => {
